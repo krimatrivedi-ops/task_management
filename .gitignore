@@ -1,0 +1,24 @@
+# Virtual environment
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# SQLite DB files (local only)
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE settings
+.vscode/
+.idea/
+
+# Byte-compiled
+*.pyo
+*.pyd
+
+# Migrations (do NOT ignore)
+/alembic/__pycache__/

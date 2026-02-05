@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from jose import jwt
 from datetime import datetime, timedelta
 
@@ -19,12 +19,12 @@ def create_access_token(data: dict):
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 @router.post("/register", response_model=UserResponse)
-async def register_user(data: UserCreate, db: Session = Depends(get_db)):
+async def register_user(data: UserCreate, db: AsyncSession = Depends(get_db)):
     user = await UserService.create_user(db, data)
     return user
 
 @router.post("/login", response_model=Token)
-async def login(data: UserLogin, db: Session = Depends(get_db)):
+async def login(data: UserLogin, db: AsyncSession = Depends(get_db)):
     user = await UserService.authenticate_user(db, data.email, data.password)
 
     if not user:

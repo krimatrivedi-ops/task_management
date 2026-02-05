@@ -20,12 +20,12 @@ def create_access_token(data: dict):
 
 @router.post("/register", response_model=UserResponse)
 async def register_user(data: UserCreate, db: Session = Depends(get_db)):
-    user = UserService.create_user(db, data)
+    user = await UserService.create_user(db, data)
     return user
 
 @router.post("/login", response_model=Token)
 async def login(data: UserLogin, db: Session = Depends(get_db)):
-    user = UserService.authenticate_user(db, data.email, data.password)
+    user = await UserService.authenticate_user(db, data.email, data.password)
 
     if not user:
         raise HTTPException(

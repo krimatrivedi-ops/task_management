@@ -14,14 +14,14 @@ async def create_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return Taskservice.create_task(db, current_user.id, data)
+    return await Taskservice.create_task(db, current_user.id, data)
 
 @router.get("/", response_model=list[TaskResponse])
 async def list_tasks(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return Taskservice.get_user_tasks(db, current_user.id)
+    return await Taskservice.get_user_tasks(db, current_user.id)
 
 @router.get("/{task_id}", response_model=TaskResponse)
 async def get_task(
@@ -29,7 +29,7 @@ async def get_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return Taskservice.get_task(db, task_id, current_user.id)
+    return await Taskservice.get_task(db, task_id, current_user.id)
 
 @router.put("/{task_id}", response_model=TaskResponse)
 async def update_task(
@@ -38,8 +38,8 @@ async def update_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    task = Taskservice.get_task(db, task_id, current_user.id)
-    return Taskservice.update_task(db, task, data)
+    task = await Taskservice.get_task(db, task_id, current_user.id)
+    return await Taskservice.update_task(db, task, data)
 
 @router.delete("/{task_id}")    
 async def delete_task(
@@ -47,6 +47,6 @@ async def delete_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    task = Taskservice.get_task(db, task_id, current_user.id)
-    Taskservice.delete_task(db, task)
+    task = await Taskservice.get_task(db, task_id, current_user.id)
+    await Taskservice.delete_task(db, task)
     return {"message": "Task deleted successfully"}

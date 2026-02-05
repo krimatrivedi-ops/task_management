@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from app.models.user import User
-from app.routers.auth import create_access_token # Assuming create_access_token is public or accessible for testing
+from app.routers.auth import create_access_token
 
 def get_auth_token(client: TestClient, email: str, password: str):
     client.post("/auth/register", json={"email": email, "password": password})
